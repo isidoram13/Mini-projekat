@@ -1,0 +1,72 @@
+Objašnjenje:
+
+ISIDORA MARKOVIĆ
+
+Samoglasnici = 7
+Suglasnici= 8
+Ime + Prezime = 15
+
+
+*Izabran je PORT B, jer je broj suglasnika veći od broja samoglasnika.
+
+*Izabran je PIN 3 jer je 15 mod 6 = 3.
+
+*Prvih 7 taktova(dužina imena):
+   -širina impulsa je 7ms, koliko i ima slova u imenu
+   -širina pauze je 8ms, koliko i ima slova u prezimenu
+
+*Narednih 8 taktova(dužina prezimena):
+   -širina pauze je 7ms, koliko i ima slova u imenu
+   -širina impulsa je 8ms, koliko i ima slova u prezimenu 
+
+
+*Princip rada koda:
+
+/*
+  Prvo se definišu brojevi ponavljanja taktova na osnovu broja slova u imenu i prezimenu.
+*/
+
+  int brp1 = 7;
+  int brp2 = 8;
+
+/*
+ Zatim, definišemo 2 while petlje.
+
+ U prvoj while petlji pomoću HAL funkcija SETujemo i RESETujemo PIN 3,  odredjujemo širinu impulsa(koliko će vremenski dioda biti upaljena) i širinu pauze(koliko će dioda biti ugašena).
+ 
+ Linija "brp1--;" nam omogućava da se vrednost brp1 umanjuje svaki put za 1, sve dok ne dobije vrednost 0 i while petlja se ne završi.
+
+Druga while petlja radi po istom principu, samo obrnuto.
+*/
+
+  while (brp1 > 0)
+  {
+
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
+	  HAL_Delay(7);
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET);
+	  HAL_Delay(8);
+
+	  brp1--;
+  }
+
+  while (brp2 > 0)
+  {
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET);
+	  HAL_Delay(7);
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
+	  HAL_Delay(8);
+
+	  brp2--;
+  }
+
+  return 0;
+
+ /*
+  Na kraju se postavlja "return 0;" kako bi uspešno izašli iz programa.
+*/
+
+
+Student: Isidora Marković 621/2020
+
+
